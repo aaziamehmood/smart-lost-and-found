@@ -44,8 +44,8 @@ a {
 
 .main-content {
   flex: 1;
-  max-width: 1120px;
-  margin: 0 auto;
+  /* max-width: 1400px; */
+  margin:0 150px;
   padding: 32px 16px 40px;
 }
 
