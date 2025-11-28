@@ -3,6 +3,8 @@ import Layout from "./components/layout/Layout";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ReportLost from "./pages/ReportLost";
@@ -24,6 +26,8 @@ function App() {
         <Route path="/items" element={<BrowseItems />} />
         <Route path="/items/:id" element={<ItemDetail />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contactus" element={<ContactUs />} />
       </Routes>
     </Layout>
   );

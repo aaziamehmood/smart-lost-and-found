@@ -1,7 +1,7 @@
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom"; 
 import { useState } from "react";
 
-function Navbar() {
+function Navbar({ isLoggedIn, isAdmin }) {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -17,8 +17,8 @@ function Navbar() {
     >
       <nav
         style={{
-          maxWidth: "1120px",
-          margin: "0 auto",
+          // maxWidth: "1120px",
+          margin: "0 150px",
           padding: "14px 16px",
           display: "flex",
           alignItems: "center",
@@ -56,68 +56,94 @@ function Navbar() {
           Smart Lost &amp; Found
         </Link>
 
-        {/* Center links */}
-        <div
-          className="nav-links"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "18px",
-          }}
-        >
-          <NavLink
-            to="/"
-            style={({ isActive }) => ({
-              fontSize: "0.9rem",
-              color: isActive ? "#111827" : "#6b7280",
-              fontWeight: isActive ? 600 : 500,
-            })}
+        {/* Right side: nav links + auth buttons */}
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          <div
+            className="nav-links"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "18px",
+            }}
           >
-            Home
-          </NavLink>
-          <NavLink
-            to="/items"
-            style={({ isActive }) => ({
-              fontSize: "0.9rem",
-              color: isActive ? "#111827" : "#6b7280",
-              fontWeight: isActive ? 600 : 500,
-            })}
-          >
-            Browse Items
-          </NavLink>
-          <NavLink
-            to="/dashboard"
-            style={({ isActive }) => ({
-              fontSize: "0.9rem",
-              color: isActive ? "#111827" : "#6b7280",
-              fontWeight: isActive ? 600 : 500,
-            })}
-          >
-            Dashboard
-          </NavLink>
-          <NavLink
-            to="/admin"
-            style={({ isActive }) => ({
-              fontSize: "0.9rem",
-              color: isActive ? "#111827" : "#6b7280",
-              fontWeight: isActive ? 600 : 500,
-            })}
-          >
-            Admin
-          </NavLink>
-        </div>
+            <NavLink
+              to="/"
+              style={({ isActive }) => ({
+                fontSize: "0.9rem",
+                color: isActive ? "#111827" : "#6b7280",
+                fontWeight: isActive ? 600 : 500,
+              })}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/items"
+              style={({ isActive }) => ({
+                fontSize: "0.9rem",
+                color: isActive ? "#111827" : "#6b7280",
+                fontWeight: isActive ? 600 : 500,
+              })}
+            >
+              Browse Items
+            </NavLink>
+            <NavLink
+              to="/about"
+              style={({ isActive }) => ({
+                fontSize: "0.9rem",
+                color: isActive ? "#111827" : "#6b7280",
+                fontWeight: isActive ? 600 : 500,
+              })}
+            >
+              About
+            </NavLink>
+            <NavLink
+              to="/dashboard"
+              style={({ isActive }) => ({
+                fontSize: "0.9rem",
+                color: isActive ? "#111827" : "#6b7280",
+                fontWeight: isActive ? 600 : 500,
+              })}
+            >
+              User Dashboard
+            </NavLink>
+            <NavLink
+              to="/contactus"
+              style={({ isActive }) => ({
+                fontSize: "0.9rem",
+                color: isActive ? "#111827" : "#6b7280",
+                fontWeight: isActive ? 600 : 500,
+              })}
+            >
+              Contact Us
+            </NavLink>
 
-        {/* Right auth buttons */}
-        {!isAuthPage && (
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Link to="/login" className="btn btn-outline">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-primary">
-              Sign Up
-            </Link>
+            {/* Dashboards only visible when logged in */}
+            {isLoggedIn && isAdmin && (
+              <NavLink
+                to="/admin"
+                style={({ isActive }) => ({
+                  fontSize: "0.9rem",
+                  color: isActive ? "#111827" : "#6b7280",
+                  fontWeight: isActive ? 600 : 500,
+                })}
+              >
+                Admin Dashboard
+              </NavLink>
+            )}
           </div>
-        )}
+
+          {/* Right auth buttons */}
+          {!isAuthPage && !isLoggedIn && (
+            <div style={{ display: "flex", gap: "10px" }}>
+              <Link to="/login" className="btn btn-outline">
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-primary">
+                Sign Up
+              </Link>
+            </div>
+          )}
+        </div>
       </nav>
     </header>
   );
