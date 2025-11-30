@@ -1,16 +1,24 @@
 :root {
-  --color-bg: #f5f7fb;
-  --color-bg-dark: #0f172a;
-  --color-primary: #2563eb;
-  --color-primary-soft: #e0edff;
-  --color-text: #0f172a;
-  --color-text-muted: #6b7280;
+  /* Backgrounds */
+  --color-bg: #0f172a;        /* Deep navy background */
+  --color-bg-dark: #020617;   /* Even deeper shade for dark sections/footers */
+
+  /* Primary Colors */
+  --color-primary: #1e3a8a;        /* Rich deep blue */
+  --color-primary-soft: #dbeafe;   /* Soft sky blue for hover/backgrounds */
+
+  /* Text */
+  --color-text: #ffffff;           /* White text for readability on deep bg */
+  --color-text-muted: #93c5fd;     /* Muted soft blue for secondary text */
+
+  /* Cards / Surfaces */
   --color-card: #ffffff;
+
+  /* Radii & Shadows */
   --radius-lg: 18px;
   --radius-md: 12px;
-  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 18px 45px rgba(30, 58, 138, 0.25); /* softened deep blue shadow */
 }
-
 *,
 *::before,
 *::after {
@@ -29,6 +37,8 @@ body {
     sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
+   padding: 0;
+  overflow-x: hidden;
 }
 
 a {
@@ -46,7 +56,7 @@ a {
   flex: 1;
   /* max-width: 1400px; */
   margin:0 150px;
-  padding: 32px 16px 40px;
+  padding: 0px 16px 40px;
 }
 
 /* Utilities */
@@ -233,4 +243,14 @@ a {
   opacity: 1;
   transform: translateY(0);
 }
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 

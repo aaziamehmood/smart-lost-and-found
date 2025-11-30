@@ -1,377 +1,310 @@
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import SectionTitle from "../components/common/SectionTitle";
-import StatCard from "../components/common/StatCard";
+import FadeUp from "./FadeUp";
+
+// Image paths
+const itemImages = [
+  "/assets/wallet1.jpg",
+  "/assets/key1.jpg",
+  "/assets/bag2.jpg",
+  "/assets/laptop2.jpg",
+  "/assets/bag2.jpg",
+  "/assets/usb1.jpg",
+  "/assets/bag4.jpg",
+  "/assets/usb2.jpg",
+];
 
 function Home() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const sectionRef = useRef(null);
+
+  // Rotate images every 2.5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % itemImages.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <div>
-      {/* HERO */}
+    <div
+      style={{
+        backgroundColor: "#0f172a",
+        color: "#ffffff",
+        minHeight: "100vh",
+      }}
+    >
+      {/* HERO SECTION */}
       <section
         style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1.4fr) minmax(0, 1fr)",
-          gap: "36px",
+          display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          marginTop: "32px",
+          justifyContent: "center",
+          padding: "0px 20px",
+          textAlign: "center",
         }}
       >
-        <div>
-          <div
-            style={{
-              fontSize: "0.85rem",
-              fontWeight: 600,
-              color: "var(--color-primary)",
-              textTransform: "uppercase",
-              letterSpacing: "0.18em",
-              marginBottom: "10px",
-            }}
-          >
-            University Lost &amp; Found
-          </div>
-          <h1
-            style={{
-              fontSize: "2.4rem",
-              lineHeight: 1.15,
-              margin: 0,
-              fontWeight: 700,
-            }}
-          >
-            Find your lost items
-            <br />
-            faster with{" "}
-            <span style={{ color: "var(--color-primary)" }}>smart matching</span>
-            .
-          </h1>
-          <p
-            style={{
-              marginTop: "12px",
-              color: "var(--color-text-muted)",
-              fontSize: "0.98rem",
-              maxWidth: 480,
-            }}
-          >
-            A centralized portal for students and staff to report lost or found
-            items. Our system uses image and text matching to suggest possible
-            matches in seconds.
-          </p>
+        <h1
+          style={{ fontSize: "2.6rem", fontWeight: 400, marginBottom: "0px" }}
+        >
+          Introducing CampusFind:
+        </h1>
+        <p
+          style={{
+            fontSize: "2.6rem",
+            color: "#ffffff",
+            marginTop: "3px",
+            marginBottom: "30px",
+            maxWidth: "600px",
+          }}
+        >
+          Keys? Wallet? Laptop? Sorted.
+        </p>
 
-          <div style={{ marginTop: "20px", display: "flex", gap: "12px" }}>
-            <Link to="/report-lost" className="btn btn-primary">
-              Report Lost Item
-            </Link>
-            <Link to="/report-found" className="btn btn-outline">
-              Report Found Item
-            </Link>
-          </div>
-
-          <p
+        {/* CTA Buttons */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "14px",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link
+            to="/report-lost"
+            className="btn btn-primary"
             style={{
-              marginTop: "14px",
-              fontSize: "0.8rem",
-              color: "var(--color-text-muted)",
+              backgroundColor: "#1e3a8a",
+              color: "#ffffff",
+              padding: "10px 18px",
+              borderRadius: "999px",
+              fontWeight: 500,
+              fontSize: "0.95rem",
+              boxShadow: "0 10px 30px rgba(37, 99, 235, 0.4)",
             }}
           >
-            No more notice boards or WhatsApp spam. One portal for the entire
-            campus.
-          </p>
+            Report Lost Item
+          </Link>
+          <Link
+            to="/items"
+            className="btn btn-outline"
+            style={{
+              backgroundColor: "#ffffff",
+              color: "#1e3a8a",
+              padding: "10px 18px",
+              borderRadius: "999px",
+              fontWeight: 500,
+              fontSize: "0.95rem",
+              border: "1px solid rgba(37, 99, 235, 0.2)",
+            }}
+          >
+            Browse Items
+          </Link>
         </div>
 
-        <div>
-          {/* Mock UI card */}
+        {/* ROTATING FADE/BLUR IMAGE CIRCLE */}
+        <div
+          style={{
+            marginTop: "42px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <div
             style={{
-              background: "var(--color-card)",
-              borderRadius: "24px",
-              boxShadow: "var(--shadow-soft)",
-              padding: "18px 18px 20px",
+              width: "400px",
+              height: "400px",
+              borderRadius: "50%",
+              position: "relative",
+              overflow: "hidden",
+              animation: "spin 20s linear infinite",
+              boxShadow: "0 0 30px rgba(30, 58, 138, 0.6)",
             }}
           >
-            <div
-              style={{
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                marginBottom: "10px",
-              }}
-            >
-              Smart Match Preview
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "12px",
-                marginBottom: "16px",
-              }}
-            >
-              <div
+            {itemImages.map((img, i) => (
+              <img
+                key={i}
+                src={img}
+                alt=""
                 style={{
-                  borderRadius: "16px",
-                  background: "#eff3ff",
-                  padding: "12px",
+                  position: "absolute",
+                  inset: 0,
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  opacity: currentIndex === i ? 1 : 0,
+                  filter: currentIndex === i ? "blur(0px)" : "blur(6px)",
+                  transition:
+                    "opacity 1.2s ease-in-out, filter 1.2s ease-in-out",
                 }}
-              >
-                <div
-                  style={{
-                    fontSize: "0.75rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                    color: "#1d4ed8",
-                    marginBottom: "4px",
-                  }}
-                >
-                  Lost
-                </div>
-                <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>
-                  Black Wallet
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.78rem",
-                    color: "var(--color-text-muted)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Library • 21 Nov
-                </div>
-              </div>
-
-              <div
-                style={{
-                  borderRadius: "16px",
-                  background: "#ecfdf5",
-                  padding: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: "0.75rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                    color: "#15803d",
-                    marginBottom: "4px",
-                  }}
-                >
-                  Found
-                </div>
-                <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>
-                  Black Wallet
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.78rem",
-                    color: "var(--color-text-muted)",
-                    marginTop: "4px",
-                  }}
-                >
-                  Cafeteria • 22 Nov
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                borderRadius: "999px",
-                background: "#0f172a",
-                color: "#e5e7eb",
-                padding: "10px 14px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                fontSize: "0.85rem",
-              }}
-            >
-              <span>AI match confidence</span>
-              <span style={{ fontWeight: 600, color: "#4ade80" }}>92%</span>
-            </div>
+              />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="section">
-        <SectionTitle
-          kicker="Why this portal"
-          title="Designed for busy students and staff"
-          subtitle="Reduce time spent searching for lost items and keep the campus organized."
-        />
-
-        <div className="grid grid-3">
-          <StatCard
-            label="Items tracked"
-            value="1,250+"
-            hint="Since the start of this semester."
-          />
-          <StatCard
-            label="Average match time"
-            value="12 min"
-            hint="From report to first suggested match."
-          />
-          <StatCard
-            label="Successful returns"
-            value="87%"
-            hint="Based on verified matches."
-          />
-        </div>
-      </section>
-
-      {/* How it works */}
+      {/* WHY CAMPUSFIND SECTION */}
       <section
-        className="section"
+        ref={sectionRef}
         style={{
-          borderRadius: "24px",
-          padding: "26px 24px 28px",
-          background: "var(--color-bg-dark)",
-          color: "#e5e7eb",
-          boxShadow: "var(--shadow-soft)",
-          marginTop: "60px",
+          minHeight: "100vh",
+          padding: "80px 20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          color: "#0f172a",
         }}
       >
-        <div style={{ maxWidth: 620 }}>
+        <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <div
             style={{
-              fontSize: "0.8rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.15em",
-              color: "#93c5fd",
-              marginBottom: "6px",
+              fontSize: "2.6rem",
+              color: "#fdfdfdff",
+              marginBottom: "10px",
+              fontWeight: 400,
             }}
           >
-            How it works
+            Why CampusFind:
           </div>
-          <h2 style={{ margin: 0, fontSize: "1.8rem" }}>
-            Three simple steps to recover what you lost.
+          <h2
+            style={{
+              fontSize: "2.3rem",
+              fontWeight: 400,
+              marginBottom: "10px",
+              marginTop: "5px",
+              color: "#d3d6dbff",
+            }}
+          >
+            Built for fast recovery and campus-wide trust
           </h2>
           <p
             style={{
-              marginTop: "8px",
-              fontSize: "0.9rem",
-              color: "#cbd5f5",
+              fontSize: "1rem",
+              color: "#d3d6dbff",
+              maxWidth: "600px",
+              margin: "0 auto",
             }}
           >
-            Every report helps. Whether you lost something or found it on a
-            bench, adding it to the portal makes the campus safer and more
-            honest for everyone.
+            Our smart matching system helps reunite students with their
+            belongings in minutes.
           </p>
         </div>
 
-        <div
-          style={{
-            marginTop: "22px",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: "16px",
-          }}
-        >
-          {[
-            {
-              number: "1",
-              title: "Report an item",
-              text: "Upload a photo, describe the item and where it was lost or found.",
-            },
-            {
-              number: "2",
-              title: "Let AI search",
-              text: "We compare your report with all existing entries using text and image similarity.",
-            },
-            {
-              number: "3",
-              title: "Confirm and claim",
-              text: "If there is a match, the admin verifies and you coordinate pickup.",
-            },
-          ].map((step) => (
-            <div
-              key={step.number}
-              style={{
-                background: "rgba(15,23,42,0.7)",
-                borderRadius: "18px",
-                padding: "16px 18px",
-                border: "1px solid rgba(148,163,184,0.4)",
-              }}
-            >
+        <FadeUp>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr",
+              gridTemplateRows: "140px 140px 140px",
+              gridTemplateAreas: `
+        "box1 box2"
+        "box3 box4"
+        "box3 box5"
+      `,
+              gap: "20px",
+              width: "100%",
+              maxWidth: "1200px",
+              marginTop: "20px",
+            }}
+          >
+            {[
+              {
+                title: "Fast AI Matching",
+                bg: "#1e3a8a",
+                color: "#e2e8f0",
+                area: "box1",
+              },
+              {
+                title: "High-Yield Access",
+                bg: "#ffffff",
+                color: "#1e3a8a",
+                area: "box2",
+              },
+              {
+                title: "Fully Programmable",
+                bg: "#ffffffff",
+                color: "#1e3a8a",
+                area: "box3",
+                images: [
+                  "/assets/interface.png",
+                  "/assets/verified.png",
+                  "/assets/return.png",
+                ],
+              },
+              {
+                title: "Near Zero-cost",
+                bg: "#1e3a8a",
+                color: "#ffffff",
+                area: "box4",
+              },
+              {
+                title: "Verified Returns",
+                bg: "#fdfdfdff",
+                color: "#1e3a8a",
+                area: "box5",
+              },
+            ].map((item, i) => (
               <div
+                key={i}
+                className="feature-card"
                 style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: "999px",
-                  background: "#1d4ed8",
+                  gridArea: item.area,
+                  background: item.bg,
+                  color: item.color,
+                  padding: "20px",
+                  borderRadius: "18px",
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.06)",
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "0.8rem",
-                  fontWeight: 600,
-                  marginBottom: "8px",
+                  flexDirection: "column",
+                  gap: "10px",
                 }}
               >
-                {step.number}
-              </div>
-              <div
-                style={{
-                  fontWeight: 600,
-                  marginBottom: "4px",
-                  fontSize: "0.95rem",
-                }}
-              >
-                {step.title}
-              </div>
-              <div style={{ fontSize: "0.85rem", color: "#cbd5f5" }}>
-                {step.text}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+                <div
+                  style={{
+                    fontWeight: 600,
+                    fontSize: "1rem",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {item.title}
+                </div>
+                <div style={{ fontSize: "0.85rem", opacity: 0.85 }}>
+                  Learn quam dolor sit amet, consectetur adipiscing elit.
+                </div>
 
-      {/* CTA */}
-      <section className="section">
-        <div
-          style={{
-            background: "var(--color-card)",
-            borderRadius: "24px",
-            padding: "24px 22px",
-            boxShadow: "var(--shadow-soft)",
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "16px",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div>
-            <div
-              style={{
-                fontSize: "0.8rem",
-                textTransform: "uppercase",
-                letterSpacing: "0.14em",
-                color: "var(--color-primary)",
-                marginBottom: "6px",
-              }}
-            >
-              Start today
-            </div>
-            <div style={{ fontSize: "1.4rem", fontWeight: 600 }}>
-              Ready to make our campus smarter and more honest?
-            </div>
-            <div
-              style={{
-                fontSize: "0.9rem",
-                color: "var(--color-text-muted)",
-                marginTop: "6px",
-              }}
-            >
-              It only takes a minute to report a lost or found item. The sooner
-              it is in the system, the easier it is to match.
-            </div>
+                {/* Images row for Fully Programmable */}
+                {item.images && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      gap: "0px",
+                      marginTop: "50px",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {item.images.map((img, idx) => (
+                      <img
+                        key={idx}
+                        src={img}
+                        alt=""
+                        style={{
+                          width: "100%",
+                          maxWidth: "90px",
+                          height: "auto",
+                          borderRadius: "12px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <Link to="/register" className="btn btn-primary">
-              Create account
-            </Link>
-            <Link to="/items" className="btn btn-outline">
-              Browse current items
-            </Link>
-          </div>
-        </div>
+        </FadeUp>
       </section>
     </div>
   );
