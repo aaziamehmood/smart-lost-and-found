@@ -1,3 +1,4 @@
+import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import useScrollAnimation from "../utils/useScrollAnimation";
@@ -130,7 +131,7 @@ useScrollAnimation();
               pickup location on campus.
             </p>
           </div>
-        </div>
+        </FadeUp>
       </section>
 
       {/* ===== RESTORED HOW IT WORKS MINI CARDS ===== */}

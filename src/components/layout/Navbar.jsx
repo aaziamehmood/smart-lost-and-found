@@ -45,7 +45,9 @@ function Navbar({ isLoggedIn, isAdmin }) {
             gap: "12px",
           }}
         >
-          <div
+          <img
+            src="/assets/found.png" // <-- place your logo file in public/assets
+            alt="CampusFind Logo"
             style={{
               width: 48,
               height: 48,
@@ -120,7 +122,7 @@ function Navbar({ isLoggedIn, isAdmin }) {
               >
                 Sign Up
               </Link>
-            </div>
+            </>
           )}
         </div>
       </nav>
