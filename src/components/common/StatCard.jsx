@@ -6,7 +6,10 @@ function StatCard({ label, value, hint }) {
         borderRadius: "var(--radius-md)",
         padding: "16px 18px",
         boxShadow: "var(--shadow-soft)",
+        transition: "box-shadow 0.3s ease",
       }}
+      onMouseOver={(e) => (e.currentTarget.style.boxShadow = "var(--shadow-hover)")}
+      onMouseOut={(e) => (e.currentTarget.style.boxShadow = "var(--shadow-soft)")}
     >
       <div
         style={{

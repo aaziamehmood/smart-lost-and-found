@@ -11,7 +11,10 @@ function ItemCard({ item }) {
         display: "flex",
         flexDirection: "column",
         gap: "10px",
+        transition: "box-shadow 0.3s ease, transform 0.3s ease",
       }}
+      onMouseOver={(e) => (e.currentTarget.style.boxShadow = "var(--shadow-hover)")}
+      onMouseOut={(e) => (e.currentTarget.style.boxShadow = "var(--shadow-soft)")}
     >
       <div
         style={{
