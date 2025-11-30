@@ -1,233 +1,125 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useState } from "react";
 
 function Navbar({ isLoggedIn, isAdmin }) {
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
 
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/register";
 
+  const linkStyle = (isActive) => ({
+    fontSize: "1rem",
+    padding: "8px 0",
+    color: isActive ? "#ffffff" : "#e2e8f0",   // brighter
+    fontWeight: isActive ? 700 : 500,          // stronger
+    transition: "0.25s ease",
+  });
+
   return (
     <header
       style={{
-        background: "#0f172a",
-        boxShadow: "0 12px 40px rgba(15,23,42,0.06)",
+        background: "linear-gradient(90deg, #1e293b, #334155, #1e3a8a)",
+        backdropFilter: "blur(18px)",
+        boxShadow: "0 2px 18px rgba(0,0,0,0.35)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
       }}
     >
       <nav
         style={{
-          margin: "0 150px",
-          padding: "14px 16px",
+          padding: "16px 48px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          gap: "16px",
+          maxWidth: "1400px",
+          margin: "0 auto",
         }}
       >
-        {/* Left logo */}
+        {/* LOGO LEFT */}
         <Link
           to="/"
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "8px",
-            fontWeight: 330,
-            fontSize: "1.6rem",
+            gap: "12px",
           }}
         >
           <img
             src="/assets/found.png" // <-- place your logo file in public/assets
             alt="CampusFind Logo"
             style={{
-              width: 32,
-              height: 32,
-              borderRadius: "8px", // optional: keep rounded corners
-              objectFit: "cover", // ensures it fills nicely
-            }}
-          />
-          CampusFind
-        </Link>
-
-        {/* Centered NavLinks with lines + emerged pill style */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
+              width: 48,
+              height: 48,
+              borderRadius: "14px",
+              background: "linear-gradient(135deg, #3b82f6, #2563eb)",
               display: "flex",
-              flexDirection: "column",
               alignItems: "center",
-              padding: "10px 16px",
-              borderTop: "1px solid #343941ff",
-              borderBottom: "1px solid #343941ff",
-              borderRadius: "12px",
-              background: "rgba(2, 6, 23, 0.35)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+              justifyContent: "center",
+              color: "white",
+              fontSize: "1.3rem",
+              fontWeight: 700,
+              boxShadow: "0 8px 20px rgba(37,99,235,0.35)",
             }}
           >
-            <div
-              className="nav-links"
-              style={{
-                display: "flex",
-                gap: "10px",
-              }}
-            >
-              <NavLink
-                to="/"
-                style={({ isActive }) => ({
-                  padding: "8px 16px",
-                  // borderRadius: "999px",
-                  // border: "1px solid rgba(148,163,184,0.22)",
-                  // backgroundColor: isActive
-                  //   ? "rgba(30,58,138,0.25)"
-                  //   : "rgba(255,255,255,0.03)",
-                  color: isActive ? "#ffffff" : "#cbd5f5",
-                  fontWeight: isActive ? 500 : 400,
-                  fontSize: "0.98rem",
-                  // boxShadow: isActive
-                  //   ? "0 0 10px rgba(37,99,235,0.35), inset 0 8px 18px rgba(255,255,255,0.06)"
-                  //   : "inset 0 8px 18px rgba(255,255,255,0.04)",
-                  backdropFilter: "blur(6px)",
-                  transition: "all 240ms ease",
-                  textDecoration: "none",
-                })}
-              >
-                Home
-              </NavLink>
-
-              <NavLink
-                to="/items"
-                style={({ isActive }) => ({
-                  padding: "8px 16px",
-                  // borderRadius: "999px",
-                  // border: "1px solid rgba(148,163,184,0.22)",
-                  // backgroundColor: isActive
-                  //   ? "rgba(30,58,138,0.25)"
-                  //   : "rgba(255,255,255,0.03)",
-                  color: isActive ? "#ffffff" : "#cbd5f5",
-                  fontWeight: isActive ? 500 : 400,
-                  fontSize: "0.98rem",
-                  // boxShadow: isActive
-                  //   ? "0 0 10px rgba(37,99,235,0.35), inset 0 8px 18px rgba(255,255,255,0.06)"
-                  //   : "inset 0 8px 18px rgba(255,255,255,0.04)",
-                  backdropFilter: "blur(6px)",
-                  transition: "all 240ms ease",
-                  textDecoration: "none",
-                })}
-              >
-                Browse Items
-              </NavLink>
-
-              <NavLink
-                to="/about"
-                style={({ isActive }) => ({
-                  padding: "8px 16px",
-                  // borderRadius: "999px",
-                  // border: "1px solid rgba(148,163,184,0.22)",
-                  // backgroundColor: isActive
-                  //   ? "rgba(30,58,138,0.25)"
-                  //   : "rgba(255,255,255,0.03)",
-                  color: isActive ? "#ffffff" : "#cbd5f5",
-                  fontWeight: isActive ? 500 : 400,
-                  fontSize: "0.98rem",
-                  // boxShadow: isActive
-                  //   ? "0 0 10px rgba(37,99,235,0.35), inset 0 8px 18px rgba(255,255,255,0.06)"
-                  //   : "inset 0 8px 18px rgba(255,255,255,0.04)",
-                  // backdropFilter: "blur(6px)",
-                  transition: "all 240ms ease",
-                  textDecoration: "none",
-                })}
-              >
-                About
-              </NavLink>
-
-              <NavLink
-                to="/dashboard"
-                style={({ isActive }) => ({
-                  padding: "8px 16px",
-                  // borderRadius: "999px",
-                  // border: "1px solid rgba(148,163,184,0.22)",
-                  // backgroundColor: isActive
-                  //   ? "rgba(30,58,138,0.25)"
-                  //   : "rgba(255,255,255,0.03)",
-                  color: isActive ? "#ffffff" : "#cbd5f5",
-                  fontWeight: isActive ? 500 : 400,
-                  fontSize: "0.98rem",
-                  // boxShadow: isActive
-                  //   ? "0 0 10px rgba(37,99,235,0.35), inset 0 8px 18px rgba(255,255,255,0.06)"
-                  //   : "inset 0 8px 18px rgba(255,255,255,0.04)",
-                  backdropFilter: "blur(6px)",
-                  transition: "all 240ms ease",
-                  textDecoration: "none",
-                })}
-              >
-                User Dashboard
-              </NavLink>
-
-              <NavLink
-                to="/contactus"
-                style={({ isActive }) => ({
-                  padding: "8px 16px",
-                  // borderRadius: "999px",
-                  // border: "1px solid rgba(148,163,184,0.22)",
-                  // backgroundColor: isActive
-                  //   ? "rgba(30,58,138,0.25)"
-                  //   : "rgba(255,255,255,0.03)",
-                  color: isActive ? "#ffffff" : "#cbd5f5",
-                  fontWeight: isActive ? 500 : 400,
-                  fontSize: "0.98rem",
-                  // boxShadow: isActive
-                  //   ? "0 0 10px rgba(37,99,235,0.35), inset 0 8px 18px rgba(255,255,255,0.06)"
-                  //   : "inset 0 8px 18px rgba(255,255,255,0.04)",
-                  // backdropFilter: "blur(6px)",
-                  transition: "all 240ms ease",
-                  textDecoration: "none",
-                })}
-              >
-                Contact Us
-              </NavLink>
-
-              {isLoggedIn && isAdmin && (
-                <NavLink
-                  to="/admin"
-                  style={({ isActive }) => ({
-                    padding: "8px 16px",
-                    borderRadius: "999px",
-                    border: "1px solid rgba(148,163,184,0.22)",
-                    backgroundColor: isActive
-                      ? "rgba(30,58,138,0.25)"
-                      : "rgba(255,255,255,0.03)",
-                    color: isActive ? "#ffffff" : "#cbd5f5",
-                    fontWeight: isActive ? 500 : 400,
-                    fontSize: "0.98rem",
-                    boxShadow: isActive
-                      ? "0 0 10px rgba(37,99,235,0.35), inset 0 8px 18px rgba(255,255,255,0.06)"
-                      : "inset 0 8px 18px rgba(255,255,255,0.04)",
-                    backdropFilter: "blur(6px)",
-                    transition: "all 240ms ease",
-                    textDecoration: "none",
-                  })}
-                >
-                  Admin Dashboard
-                </NavLink>
-              )}
-            </div>
+            🔑
           </div>
-        </div>
 
-        {/* Right auth buttons */}
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span
+            style={{
+              fontSize: "1.8rem",
+              fontWeight: 800,
+              color: "white",
+              fontFamily: "'Poppins', sans-serif",
+              letterSpacing: "-0.6px",
+            }}
+          >
+            Smart Lost <span style={{ color: "#60a5fa" }}>&</span> Found
+          </span>
+        </Link>
+
+        {/* NAV LINKS */}
+        <div style={{ display: "flex", alignItems: "center", gap: "34px" }}>
+          <NavLink to="/" style={({ isActive }) => linkStyle(isActive)}>Home</NavLink>
+          <NavLink to="/items" style={({ isActive }) => linkStyle(isActive)}>Browse Items</NavLink>
+          <NavLink to="/about" style={({ isActive }) => linkStyle(isActive)}>About</NavLink>
+          <NavLink to="/dashboard" style={({ isActive }) => linkStyle(isActive)}>Dashboard</NavLink>
+          <NavLink to="/contactus" style={({ isActive }) => linkStyle(isActive)}>Contact</NavLink>
+
+          {isLoggedIn && isAdmin && (
+            <NavLink to="/admin" style={({ isActive }) => linkStyle(isActive)}>
+              Admin
+            </NavLink>
+          )}
+
+          {/* AUTH BUTTONS */}
           {!isAuthPage && !isLoggedIn && (
-            <>
-              <Link to="/login" className="btn btn-outline">
+            <div style={{ display: "flex", gap: "12px" }}>
+              <Link
+                to="/login"
+                style={{
+                  padding: "9px 24px",
+                  borderRadius: "40px",
+                  border: "2px solid white",      // <-- FIXED
+                  color: "white",
+                  fontWeight: 600,
+                  backdropFilter: "blur(10px)",
+                }}
+              >
                 Login
               </Link>
-              <Link to="/register" className="btn btn-primary">
+
+              <Link
+                to="/register"
+                style={{
+                  padding: "9px 26px",
+                  borderRadius: "40px",
+                  background: "linear-gradient(135deg, #3b82f6, #2563eb, #1e40af)",
+                  color: "white",
+                  fontWeight: 600,
+                  boxShadow: "0 6px 20px rgba(37,99,235,0.45)",
+                }}
+              >
                 Sign Up
               </Link>
             </>

@@ -20,7 +20,7 @@ function Register() {
             <input
               className="form-input"
               type="text"
-              placeholder="Aazia Ali"
+              placeholder="Aazia Mehmood"
               required
             />
           </div>

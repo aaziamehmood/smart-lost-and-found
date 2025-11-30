@@ -1,108 +1,123 @@
-import { useState } from "react";
-import ItemCard from "../components/common/ItemCard";
-import mockItems from "../data/mockItems";
+import { useState, useEffect } from "react";
+import "./browse.css";
 
-function BrowseItems() {
-  const [typeFilter, setTypeFilter] = useState("all");
-  const [search, setSearch] = useState("");
+const sampleItems = [
+  {
+    id: 1,
+    type: "LOST",
+    status: "Pending match",
+    title: "Black Leather Wallet",
+    location: "Library – 2nd Floor",
+    date: "2025-11-20",
+    image: "/images/sample1.jpg",
+  },
+  {
+    id: 2,
+    type: "FOUND",
+    status: "Awaiting owner",
+    title: "Blue Backpack with Stickers",
+    location: "Computer Science Lab",
+    date: "2025-11-21",
+    image: "/images/sample2.jpg",
+  },
+  {
+    id: 3,
+    type: "LOST",
+    status: "Matched",
+    title: "Silver HP Laptop",
+    location: "Cafeteria",
+    date: "2025-11-19",
+    image: "/images/sample3.jpg",
+  },
+  {
+    id: 4,
+    type: "FOUND",
+    status: "Matched",
+    title: "Student ID Card",
+    location: "Main Gate",
+    date: "2025-11-18",
+    image: "/images/sample4.jpg",
+  },
+];
 
-  const filtered = mockItems.filter((item) => {
-    if (typeFilter !== "all" && item.type !== typeFilter) return false;
-    if (
-      search &&
-      !item.title.toLowerCase().includes(search.toLowerCase()) &&
-      !item.location.toLowerCase().includes(search.toLowerCase())
-    )
-      return false;
-    return true;
-  });
+export default function BrowseItems() {
+  const [filter, setFilter] = useState("ALL");
+
+  useEffect(() => {
+    const cards = document.querySelectorAll(".item-card");
+    cards.forEach((card, i) => {
+      setTimeout(() => {
+        card.classList.add("fade-in");
+      }, i * 120);
+    });
+  }, [filter]);
+
+  const filteredItems =
+    filter === "ALL"
+      ? sampleItems
+      : sampleItems.filter((item) => item.type === filter);
 
   return (
-    <section style={{ marginTop: "28px" }}>
-      <h2 style={{ marginBottom: "6px", fontSize: "1.5rem" }}>Browse items</h2>
-      <p
-        style={{
-          marginTop: 0,
-          marginBottom: "18px",
-          fontSize: "0.9rem",
-          color: "var(--color-text-muted)",
-        }}
-      >
-        Filter by type or search by title and location. This is a preview; later
-        it will fetch data from the backend.
-      </p>
+    <div className="browse-wrapper">
+      <div className="browse-inner">
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px",
-          marginBottom: "18px",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "inline-flex",
-            borderRadius: "999px",
-            background: "#e5e7eb",
-            padding: "3px",
-          }}
-        >
-          {[
-            { value: "all", label: "All" },
-            { value: "lost", label: "Lost" },
-            { value: "found", label: "Found" },
-          ].map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              className="btn"
-              style={{
-                padding: "6px 14px",
-                fontSize: "0.8rem",
-                borderRadius: "999px",
-                background:
-                  typeFilter === opt.value ? "#ffffff" : "transparent",
-                boxShadow:
-                  typeFilter === opt.value
-                    ? "0 4px 14px rgba(0,0,0,0.08)"
-                    : "none",
-              }}
-              onClick={() => setTypeFilter(opt.value)}
-            >
-              {opt.label}
-            </button>
+        <h1 className="browse-title">Browse Items</h1>
+        <p className="browse-subtitle">
+          Search or filter to quickly find lost and found items across the campus.
+        </p>
+
+        {/* FILTER BAR */}
+        <div className="filter-bar">
+          <button
+            className={filter === "ALL" ? "filter-btn active" : "filter-btn"}
+            onClick={() => setFilter("ALL")}
+          >
+            All
+          </button>
+          <button
+            className={filter === "LOST" ? "filter-btn active" : "filter-btn"}
+            onClick={() => setFilter("LOST")}
+          >
+            LOST
+          </button>
+          <button
+            className={filter === "FOUND" ? "filter-btn active" : "filter-btn"}
+            onClick={() => setFilter("FOUND")}
+          >
+            FOUND
+          </button>
+
+          <input
+            type="text"
+            placeholder="Search by title, type, or location..."
+            className="search-input"
+          />
+        </div>
+
+        {/* GRID */}
+        <div className="items-grid">
+          {filteredItems.map((item) => (
+            <div key={item.id} className="item-card">
+              <img src={item.image} className="item-image" alt={item.title} />
+
+              <div className="item-tags">
+                <span className={item.type === "LOST" ? "tag tag-lost" : "tag tag-found"}>
+                  {item.type}
+                </span>
+
+                <span className="tag tag-status">{item.status}</span>
+              </div>
+
+              <h3 className="item-title">{item.title}</h3>
+
+              <p className="item-meta">{item.location} • {item.date}</p>
+
+              <button className="details-btn">View details</button>
+            </div>
           ))}
         </div>
 
-        <input
-          className="form-input"
-          style={{ maxWidth: 260 }}
-          placeholder="Search by title or location..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
       </div>
-
-      <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))" }}>
-        {filtered.map((item) => (
-          <ItemCard key={item.id} item={item} />
-        ))}
-        {filtered.length === 0 && (
-          <div
-            style={{
-              fontSize: "0.9rem",
-              color: "var(--color-text-muted)",
-              marginTop: "10px",
-            }}
-          >
-            No items found with current filters.
-          </div>
-        )}
-      </div>
-    </section>
+    </div>
   );
 }
-
-export default BrowseItems;
